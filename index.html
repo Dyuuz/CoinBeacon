@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGN Crypto Rate Checker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #1a1a2e;
+            --light: #f5f5f5;
+            --accent: #ff7e5f;
+            --card-bg: #ffffff;
+            --text: #333;
+            --text-light: #777;
+            --bg-color: #f5f7fa;
+            --container-bg: #ffffff;
+            --header-bg: transparent;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --primary: #8a63f2;
+            --secondary: #63d9d0;
+            --dark: #121212;
+            --light: #e0e0e0;
+            --accent: #ff9274;
+            --card-bg: #1e1e2e;
+            --text: #f0f0f0;
+            --text-light: #aaaaaa;
+            --bg-color: #0f0f18;
+            --container-bg: #121212;
+            --header-bg: #1a1a2e;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            background: var(--header-bg);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+            gap: 1rem;
+        }
+
+        .view-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .view-btn.inactive {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .rates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .rate-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .rate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .exchange-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .exchange-name::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-right: 10px;
+        }
+
+        .rate-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .rate-item:last-child {
+            border-bottom: none;
+        }
+
+        .crypto-name {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .crypto-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .rate-value {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .buy-rate {
+            color: #4CAF50;
+        }
+
+        .sell-rate {
+            color: #F44336;
+        }
+
+        .updated-time {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-align: right;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1rem;
+            background: rgba(110, 69, 226, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .disclaimer strong {
+            color: var(--primary);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .rates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .view-toggle {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .view-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>NGN Rate Checker</h1>
+            <p class="subtitle">Real-time cryptocurrency rates across Nigerian exchanges</p>
+        </header>
+
+        <div class="view-toggle">
+            <button class="view-btn active" id="buyBtn">
+                <i class="fas fa-shopping-cart"></i> Buy Rates
+            </button>
+            <button class="view-btn inactive" id="sellBtn">
+                <i class="fas fa-money-bill-wave"></i> Sell Rates
+            </button>
+        </div>
+
+        <!-- Buy Rates Section -->
+        <div class="rates-grid" id="buyRates">
+            <!-- Astro Africa -->
+            <div class="rate-card">
+                <div class="exchange-name">Astro Africa</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Breet Rate -->
+            <div class="rate-card">
+                <div class="exchange-name">Breet Rate</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Jeroid -->
+            <div class="rate-card">
+                <div class="exchange-name">Jeroid</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Prestmit -->
+            <div class="rate-card">
+                <div class="exchange-name">Prestmit</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Pandar -->
+            <div class="rate-card">
+                <div class="exchange-name">Pandar</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- SnappyExchange -->
+            <div class="rate-card">
+                <div class="exchange-name">SnappyExchange</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value buy-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+        </div>
+
+        <!-- Sell Rates Section (initially hidden) -->
+        <div class="rates-grid hidden" id="sellRates">
+            <!-- Astro Africa -->
+            <div class="rate-card">
+                <div class="exchange-name">Astro Africa</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Breet Rate -->
+            <div class="rate-card">
+                <div class="exchange-name">Breet Rate</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Jeroid -->
+            <div class="rate-card">
+                <div class="exchange-name">Jeroid</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Prestmit -->
+            <div class="rate-card">
+                <div class="exchange-name">Prestmit</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- Pandar -->
+            <div class="rate-card">
+                <div class="exchange-name">Pandar</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+
+            <!-- SnappyExchange -->
+            <div class="rate-card">
+                <div class="exchange-name">SnappyExchange</div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC" class="crypto-icon">
+                        Bitcoin (BTC)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH" class="crypto-icon">
+                        Ethereum (ETH)
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="rate-item">
+                    <div class="crypto-name">
+                        <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="USDT" class="crypto-icon">
+                        USDT
+                    </div>
+                    <div class="rate-value sell-rate">₦--</div>
+                </div>
+                <div class="updated-time">Updating...</div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <strong>Note:</strong> Rates are indicative and may vary. Always check with the exchange for the most current rates before trading.
+            <br>Last updated: <span id="current-time">--</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            // Buy/Sell toggle functionality
+            const buyBtn = document.getElementById('buyBtn');
+            const sellBtn = document.getElementById('sellBtn');
+            const buyRates = document.getElementById('buyRates');
+            const sellRates = document.getElementById('sellRates');
+            
+            buyBtn.addEventListener('click', function() {
+                buyBtn.classList.remove('inactive');
+                buyBtn.classList.add('active');
+                sellBtn.classList.remove('active');
+                sellBtn.classList.add('inactive');
+                buyRates.classList.remove('hidden');
+                sellRates.classList.add('hidden');
+            });
+            
+            sellBtn.addEventListener('click', function() {
+                sellBtn.classList.remove('inactive');
+                sellBtn.classList.add('active');
+                buyBtn.classList.remove('active');
+                buyBtn.classList.add('inactive');
+                sellRates.classList.remove('hidden');
+                buyRates.classList.add('hidden');
+            });
+            
+            // Update current time
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleString();
+            
+            // Simulate fetching rates
+            setTimeout(() => {
+                // Buy rates
+                const buyCards = document.querySelectorAll('#buyRates .rate-card');
+                buyCards.forEach(card => {
+                    const rates = card.querySelectorAll('.buy-rate');
+                    rates[0].textContent = '₦' + (Math.random() * 1000000 + 25000000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    rates[1].textContent = '₦' + (Math.random() * 500000 + 1500000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    rates[2].textContent = '₦' + (Math.random() * 50 + 1200).toFixed(2);
+                    
+                    const timeElement = card.querySelector('.updated-time');
+                    timeElement.textContent = 'Updated: ' + new Date().toLocaleTimeString();
+                });
+                
+                // Sell rates (typically lower than buy rates)
+                const sellCards = document.querySelectorAll('#sellRates .rate-card');
+                sellCards.forEach(card => {
+                    const rates = card.querySelectorAll('.sell-rate');
+                    rates[0].textContent = '₦' + (Math.random() * 800000 + 24000000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    rates[1].textContent = '₦' + (Math.random() * 400000 + 1400000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    rates[2].textContent = '₦' + (Math.random() * 40 + 1150).toFixed(2);
+                    
+                    const timeElement = card.querySelector('.updated-time');
+                    timeElement.textContent = 'Updated: ' + new Date().toLocaleTimeString();
+                });
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
