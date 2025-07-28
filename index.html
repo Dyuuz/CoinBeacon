@@ -678,31 +678,7 @@
             document.getElementById('current-time').textContent = now.toLocaleString();
             
             // Simulate fetching rates
-            setTimeout(() => {
-                // Buy rates
-                const buyCards = document.querySelectorAll('#buyRates .rate-card');
-                buyCards.forEach(card => {
-                    const rates = card.querySelectorAll('.buy-rate');
-                    rates[0].textContent = '₦' + (Math.random() * 1000000 + 25000000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    rates[1].textContent = '₦' + (Math.random() * 500000 + 1500000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    rates[2].textContent = '₦' + (Math.random() * 50 + 1200).toFixed(2);
-                    
-                    const timeElement = card.querySelector('.updated-time');
-                    timeElement.textContent = 'Updated: ' + new Date().toLocaleTimeString();
-                });
-                
-                // Sell rates (typically lower than buy rates)
-                const sellCards = document.querySelectorAll('#sellRates .rate-card');
-                sellCards.forEach(card => {
-                    const rates = card.querySelectorAll('.sell-rate');
-                    rates[0].textContent = '₦' + (Math.random() * 800000 + 24000000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    rates[1].textContent = '₦' + (Math.random() * 400000 + 1400000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    rates[2].textContent = '₦' + (Math.random() * 40 + 1150).toFixed(2);
-                    
-                    const timeElement = card.querySelector('.updated-time');
-                    timeElement.textContent = 'Updated: ' + new Date().toLocaleTimeString();
-                });
-            }, 1500);
+            
         });
     </script>
 </body>
