@@ -137,4 +137,4 @@ updateAllRates();
 
 setInterval(() => {
   updateAllRates().catch(console.error); // Run and handle errors
-}, 60000);
+}, 3600000);
