@@ -125,18 +125,16 @@ async function updateAstroRate() {
 }
 
 async function updateAllRates() {
-  await Promise.all([
-    updateRate(),
-    updatePandarRate(),
-    updatePrestmitRate(),
-    updateJeroidRate(),
-    updateBreetRate(),
-    updateAstroRate()
-  ]);
+  await updateSnappyRate();
+  await updatePandarRate();
+  await updatePrestmitRate();
+  await updateJeroidRate();
+  await updateBreetRate();
+  await updateAstroRate();
 }
 
-updateAllRates().catch(console.error);
+updateAllRates();
 
 setInterval(() => {
-  updateAllRates().catch(console.error);
+  updateAllRates().catch(console.error); // Run and handle errors
 }, 60000);
