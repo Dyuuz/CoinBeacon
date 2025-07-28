@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NGN Crypto Rate Checker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         :root {
             --primary: #6e45e2;
@@ -601,8 +602,25 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="JavaScript/Refresh.js"></script>
+    <script>
+        async function updateRate() {
+        try {
+            const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/snappy-exchange');
+            const btcValue = response.data[0].btc;
+            const ethValue = response.data[0].eth;
+            const usdtValue = response.data[0].usdt;
+
+            document.querySelector('.snappy-btc-sell').textContent = `₦${btcValue || '--'}`;
+        } catch (error) {
+            console.error('Failed to fetch BTC rate:', error);
+        }
+        }
+
+        updateRate();
+
+        setInterval(updateRate, 60000);
+    </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
