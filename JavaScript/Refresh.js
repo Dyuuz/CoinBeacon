@@ -6,9 +6,9 @@ async function updateSnappyRate() {
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.snappy-btc-sell').textContent = `₦${btcValue || 'pending'}`;
-        document.querySelector('.snappy-eth-sell').textContent = `₦${ethValue || 'pending'}`;
-        document.querySelector('.snappy-usdt-sell').textContent = `₦${usdtValue || 'pending'}`;
+        document.querySelector('.snappy-btc-sell').textContent = `₦${btcValue - btcValue || 'pending'}`;
+        document.querySelector('.snappy-eth-sell').textContent = `₦${ethValue - ethValue || 'pending'}`;
+        document.querySelector('.snappy-usdt-sell').textContent = `₦${usdtValue - usdtValue || 'pending'}`;
         document.querySelector('.snappy-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.snappy-btc-sell').textContent = "pending";
@@ -27,9 +27,9 @@ async function updatePandarRate() {
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.pandar-btc-sell').textContent = `₦${btcValue || 'pending'}`;
-        document.querySelector('.pandar-eth-sell').textContent = `₦${ethValue || 'pending'}`;
-        document.querySelector('.pandar-usdt-sell').textContent = `₦${usdtValue || 'pending'}`;
+        document.querySelector('.pandar-btc-sell').textContent = `₦${btcValue - btcValue || 'pending'}`;
+        document.querySelector('.pandar-eth-sell').textContent = `₦${ethValue - ethValue || 'pending'}`;
+        document.querySelector('.pandar-usdt-sell').textContent = `₦${usdtValue - usdtValue || 'pending'}`;
         document.querySelector('.pandar-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.pandar-btc-sell').textContent = "pending";
