@@ -5,10 +5,9 @@ async function updateSnappyRate() {
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
-
-        document.querySelector('.snappy-btc-sell').textContent = `₦${btcValue - btcValue || 'pending'}`;
-        document.querySelector('.snappy-eth-sell').textContent = `₦${ethValue - ethValue || 'pending'}`;
-        document.querySelector('.snappy-usdt-sell').textContent = `₦${usdtValue - usdtValue || 'pending'}`;
+        document.querySelector('.snappy-btc-sell').textContent = btcValue ? `₦${btcValue} - ₦${btcValue}` : 'pending';
+        document.querySelector('.snappy-eth-sell').textContent = ethValue ? `₦${ethValue} - ₦${ethValue}` : 'pending';
+        document.querySelector('.snappy-usdt-sell').textContent = usdtValue ? `₦${usdtValue} - ₦${usdtValue}` : 'pending';
         document.querySelector('.snappy-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.snappy-btc-sell').textContent = "pending";
