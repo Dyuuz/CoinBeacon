@@ -21,16 +21,16 @@ async function updateSnappyRate() {
 
 async function updatePandarRate() {
     try {
-        // const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/snappy-exchange');
-        // const btcValue = response.data[0].btc;
-        // const ethValue = response.data[0].eth;
-        // const usdtValue = response.data[0].usdt;
-        // const time_updated = response.data[0].updated_time;
+        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/pandar');
+        const btcValue = response.data[0].btc;
+        const ethValue = response.data[0].eth;
+        const usdtValue = response.data[0].usdt;
+        const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.pandar-btc-sell').textContent = "pending";
-        document.querySelector('.pandar-eth-sell').textContent = "pending";
-        document.querySelector('.pandar-usdt-sell').textContent = "pending";
-        document.querySelector('.pandar-time').textContent = "Updating..";
+        document.querySelector('.pandar-btc-sell').textContent = `₦${btcValue || 'pending'}`;
+        document.querySelector('.pandar-eth-sell').textContent = `₦${ethValue || 'pending'}`;
+        document.querySelector('.pandar-usdt-sell').textContent = `₦${usdtValue || 'pending'}`;
+        document.querySelector('.pandar-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.pandar-btc-sell').textContent = "pending";
         document.querySelector('.pandar-eth-sell').textContent = "pending";
