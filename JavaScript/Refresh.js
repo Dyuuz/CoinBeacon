@@ -5,14 +5,14 @@ async function updateSnappyRate() {
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
-        document.querySelector('.snappy-btc-sell').textContent = btcValue ? `₦${btcValue} - ₦${btcValue}` : 'pending';
-        document.querySelector('.snappy-eth-sell').textContent = ethValue ? `₦${ethValue} - ₦${ethValue}` : 'pending';
-        document.querySelector('.snappy-usdt-sell').textContent = usdtValue ? `₦${usdtValue} - ₦${usdtValue}` : 'pending';
+        document.querySelector('.snappy-btc-sell').textContent = btcValue ? `₦${btcValue} - ₦${btcValue}` : '₦--';
+        document.querySelector('.snappy-eth-sell').textContent = ethValue ? `₦${ethValue} - ₦${ethValue}` : '₦--';
+        document.querySelector('.snappy-usdt-sell').textContent = usdtValue ? `₦${usdtValue} - ₦${usdtValue}` : '₦--';
         document.querySelector('.snappy-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
-        document.querySelector('.snappy-btc-sell').textContent = "pending";
-        document.querySelector('.snappy-eth-sell').textContent = "pending";
-        document.querySelector('.snappy-usdt-sell').textContent = "pending";
+        document.querySelector('.snappy-btc-sell').textContent = "₦--";
+        document.querySelector('.snappy-eth-sell').textContent = "₦--";
+        document.querySelector('.snappy-usdt-sell').textContent = "₦--";
         document.querySelector('.snappy-time').textContent = "Updating..";
         console.error('Failed to fetch rate:', error);
     }
@@ -26,14 +26,14 @@ async function updatePandarRate() {
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.pandar-btc-sell').textContent = `₦${btcValue || 'pending'}`;
-        document.querySelector('.pandar-eth-sell').textContent = `₦${ethValue || 'pending'}`;
-        document.querySelector('.pandar-usdt-sell').textContent = `₦${usdtValue || 'pending'}`;
+        document.querySelector('.pandar-btc-sell').textContent = `₦${btcValue || '₦--'}`;
+        document.querySelector('.pandar-eth-sell').textContent = `₦${ethValue || '₦--'}`;
+        document.querySelector('.pandar-usdt-sell').textContent = `₦${usdtValue || '₦--'}`;
         document.querySelector('.pandar-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
-        document.querySelector('.pandar-btc-sell').textContent = "pending";
-        document.querySelector('.pandar-eth-sell').textContent = "pending";
-        document.querySelector('.pandar-usdt-sell').textContent = "pending";
+        document.querySelector('.pandar-btc-sell').textContent = "₦--";
+        document.querySelector('.pandar-eth-sell').textContent = "₦--";
+        document.querySelector('.pandar-usdt-sell').textContent = "₦--";
         document.querySelector('.pandar-time').textContent = "Updating..";
         console.error('Failed to fetch rate:', error);
     }
@@ -47,14 +47,14 @@ async function updatePrestmitRate() {
         // const usdtValue = response.data[0].usdt;
         // const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.prestmit-btc-sell').textContent = "pending";
-        document.querySelector('.prestmit-eth-sell').textContent = "pending";
-        document.querySelector('.prestmit-usdt-sell').textContent = "pending";
+        document.querySelector('.prestmit-btc-sell').textContent = "₦--";
+        document.querySelector('.prestmit-eth-sell').textContent = "₦--";
+        document.querySelector('.prestmit-usdt-sell').textContent = "₦--";
         document.querySelector('.prestmit-time').textContent = "Updating..";
     } catch (error) {
-        document.querySelector('.prestmit-btc-sell').textContent = "pending";
-        document.querySelector('.prestmit-eth-sell').textContent = "pending";
-        document.querySelector('.prestmit-usdt-sell').textContent = "pending";
+        document.querySelector('.prestmit-btc-sell').textContent = "₦--";
+        document.querySelector('.prestmit-eth-sell').textContent = "₦--";
+        document.querySelector('.prestmit-usdt-sell').textContent = "₦--";
         document.querySelector('.prestmit-time').textContent = "Updating..";
         console.error('Failed to fetch rate:', error);
     }
@@ -68,14 +68,14 @@ async function updateJeroidRate() {
         // const usdtValue = response.data[0].usdt;
         // const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.jeroid-btc-sell').textContent = "pending";
-        document.querySelector('.jeroid-eth-sell').textContent = "pending";
-        document.querySelector('.jeroid-usdt-sell').textContent = "pending";
+        document.querySelector('.jeroid-btc-sell').textContent = "₦--";
+        document.querySelector('.jeroid-eth-sell').textContent = "₦--";
+        document.querySelector('.jeroid-usdt-sell').textContent = "₦--";
         document.querySelector('.jeroid-time').textContent = "Updating..";
     } catch (error) {
-        document.querySelector('.jeroid-btc-sell').textContent = "pending";
-        document.querySelector('.jeroid-eth-sell').textContent = "pending";
-        document.querySelector('.jeroid-usdt-sell').textContent = "pending";
+        document.querySelector('.jeroid-btc-sell').textContent = "₦--";
+        document.querySelector('.jeroid-eth-sell').textContent = "₦--";
+        document.querySelector('.jeroid-usdt-sell').textContent = "₦--";
         document.querySelector('.jeroid-time').textContent = "Updating..";
         console.error('Failed to fetch rate:', error);
     }
@@ -89,14 +89,14 @@ async function updateBreetRate() {
         // const usdtValue = response.data[0].usdt;
         // const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.breet-btc-sell').textContent = "pending";
-        document.querySelector('.breet-eth-sell').textContent = "pending";
-        document.querySelector('.breet-usdt-sell').textContent = "pending";
+        document.querySelector('.breet-btc-sell').textContent = "₦--";
+        document.querySelector('.breet-eth-sell').textContent = "₦--";
+        document.querySelector('.breet-usdt-sell').textContent = "₦--";
         document.querySelector('.breet-time').textContent = "Updating..";
     } catch (error) {
-        document.querySelector('.breet-btc-sell').textContent = "pending";
-        document.querySelector('.breet-eth-sell').textContent = "pending";
-        document.querySelector('.breet-usdt-sell').textContent = "pending";
+        document.querySelector('.breet-btc-sell').textContent = "₦--";
+        document.querySelector('.breet-eth-sell').textContent = "₦--";
+        document.querySelector('.breet-usdt-sell').textContent = "₦--";
         document.querySelector('.breet-time').textContent = "Updating..";
         console.error('Failed to fetch rate:', error);
     }
@@ -110,14 +110,14 @@ async function updateAstroRate() {
         // const usdtValue = response.data[0].usdt;
         // const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.astro-btc-sell').textContent = "pending";
-        document.querySelector('.astro-eth-sell').textContent = "pending";
-        document.querySelector('.astro-usdt-sell').textContent = "pending";
+        document.querySelector('.astro-btc-sell').textContent = "₦--";
+        document.querySelector('.astro-eth-sell').textContent = "₦--";
+        document.querySelector('.astro-usdt-sell').textContent = "₦--";
         document.querySelector('.astro-time').textContent = "Updating..";
     } catch (error) {
-        document.querySelector('.astro-btc-sell').textContent = "pending";
-        document.querySelector('.astro-eth-sell').textContent = "pending";
-        document.querySelector('.astro-usdt-sell').textContent = "pending";
+        document.querySelector('.astro-btc-sell').textContent = "₦--";
+        document.querySelector('.astro-eth-sell').textContent = "₦--";
+        document.querySelector('.astro-usdt-sell').textContent = "₦--";
         document.querySelector('.astro-time').textContent = "Updating..";
         console.error('Failed to fetch rate:', error);
     }
