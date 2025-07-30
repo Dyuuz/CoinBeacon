@@ -5,9 +5,9 @@ async function updateSnappyRate() {
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
-        document.querySelector('.snappy-btc-sell').textContent = btcValue ? `₦${btcValue}` : '₦--';
-        document.querySelector('.snappy-eth-sell').textContent = ethValue ? `₦${ethValue}` : '₦--';
-        document.querySelector('.snappy-usdt-sell').textContent = usdtValue ? `₦${usdtValue}` : '₦--';
+        document.querySelector('.snappy-btc-sell').textContent = btcValue ? `${btcValue}` : '₦--';
+        document.querySelector('.snappy-eth-sell').textContent = ethValue ? `${ethValue}` : '₦--';
+        document.querySelector('.snappy-usdt-sell').textContent = usdtValue ? `${usdtValue}` : '₦--';
         document.querySelector('.snappy-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.snappy-btc-sell').textContent = "₦--";
@@ -26,9 +26,9 @@ async function updatePandarRate() {
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.pandar-btc-sell').textContent = `₦${btcValue || '₦--'}`;
-        document.querySelector('.pandar-eth-sell').textContent = `₦${ethValue || '₦--'}`;
-        document.querySelector('.pandar-usdt-sell').textContent = `₦${usdtValue || '₦--'}`;
+        document.querySelector('.pandar-btc-sell').textContent = `${btcValue || '₦--'}`;
+        document.querySelector('.pandar-eth-sell').textContent = `${ethValue || '₦--'}`;
+        document.querySelector('.pandar-usdt-sell').textContent = `${usdtValue || '₦--'}`;
         document.querySelector('.pandar-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.pandar-btc-sell').textContent = "₦--";
@@ -88,13 +88,10 @@ async function updateBreetRate() {
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
-        alert(btcValue);
-        alert(ethValue);
-        alert(usdtValue);
 
-        document.querySelector('.breet-btc-sell').textContent = `₦${btcValue || '₦--'}`;
-        document.querySelector('.breet-eth-sell').textContent = `₦${ethValue || '₦--'}`;
-        document.querySelector('.breet-usdt-sell').textContent = `₦${usdtValue || '₦--'}`;
+        document.querySelector('.breet-btc-sell').textContent = `${btcValue || '₦--'}`;
+        document.querySelector('.breet-eth-sell').textContent = `${ethValue || '₦--'}`;
+        document.querySelector('.breet-usdt-sell').textContent = `${usdtValue || '₦--'}`;
         document.querySelector('.breet-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.breet-btc-sell').textContent = "₦--";
