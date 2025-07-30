@@ -83,16 +83,16 @@ async function updateJeroidRate() {
 
 async function updateBreetRate() {
     try {
-        // const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/snappy-exchange');
-        // const btcValue = response.data[0].btc;
-        // const ethValue = response.data[0].eth;
-        // const usdtValue = response.data[0].usdt;
-        // const time_updated = response.data[0].updated_time;
+        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/breet');
+        const btcValue = response.data[0].btc;
+        const ethValue = response.data[0].eth;
+        const usdtValue = response.data[0].usdt;
+        const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.breet-btc-sell').textContent = "₦--";
-        document.querySelector('.breet-eth-sell').textContent = "₦--";
-        document.querySelector('.breet-usdt-sell').textContent = "₦1,483 - ₦1,515/$";
-        document.querySelector('.breet-time').textContent = "Updating..";
+        document.querySelector('.breet-btc-sell').textContent = `₦${btcValue || '₦--'}`;
+        document.querySelector('.breet-eth-sell').textContent = `₦${ethValue || '₦--'}`;
+        document.querySelector('.breet-usdt-sell').textContent = `₦${usdtValue || '₦--'}`;
+        document.querySelector('.breet-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.breet-btc-sell').textContent = "₦--";
         document.querySelector('.breet-eth-sell').textContent = "₦--";
