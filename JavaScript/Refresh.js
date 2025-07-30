@@ -88,6 +88,9 @@ async function updateBreetRate() {
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
         const time_updated = response.data[0].updated_time;
+        alert(btcValue);
+        alert(ethValue);
+        alert(usdtValue);
 
         document.querySelector('.breet-btc-sell').textContent = `₦${btcValue || '₦--'}`;
         document.querySelector('.breet-eth-sell').textContent = `₦${ethValue || '₦--'}`;
