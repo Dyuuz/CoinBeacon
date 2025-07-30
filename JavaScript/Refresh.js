@@ -1,6 +1,6 @@
 async function updateSnappyRate() {
     try {
-        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/snappy-exchange');
+        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/sell-rates/snappy-exchange');
         const btcValue = response.data[0].btc;
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
@@ -20,7 +20,7 @@ async function updateSnappyRate() {
 
 async function updatePandarRate() {
     try {
-        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/pandar');
+        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/sell-rates/pandar');
         const btcValue = response.data[0].btc;
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
@@ -83,7 +83,7 @@ async function updateJeroidRate() {
 
 async function updateBreetRate() {
     try {
-        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/breet');
+        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/sell-rates/breet');
         const btcValue = response.data[0].btc;
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
