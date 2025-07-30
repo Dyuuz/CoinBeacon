@@ -91,7 +91,7 @@ async function updateBreetRate() {
 
         document.querySelector('.breet-btc-sell').textContent = "₦--";
         document.querySelector('.breet-eth-sell').textContent = "₦--";
-        document.querySelector('.breet-usdt-sell').textContent = "₦1,483 - ₦1,515.79";
+        document.querySelector('.breet-usdt-sell').textContent = "₦1,483 - ₦1,515/$";
         document.querySelector('.breet-time').textContent = "Updating..";
     } catch (error) {
         document.querySelector('.breet-btc-sell').textContent = "₦--";
