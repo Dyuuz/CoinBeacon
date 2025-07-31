@@ -62,16 +62,16 @@ async function updatePrestmitRate() {
 
 async function updateJeroidRate() {
     try {
-        // const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/snappy-exchange');
-        // const btcValue = response.data[0].btc;
-        // const ethValue = response.data[0].eth;
-        // const usdtValue = response.data[0].usdt;
-        // const time_updated = response.data[0].updated_time;
+        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/sell-rates/jeroid');
+        const btcValue = response.data[0].btc;
+        const ethValue = response.data[0].eth;
+        const usdtValue = response.data[0].usdt;
+        const time_updated = response.data[0].updated_time;
 
-        document.querySelector('.jeroid-btc-sell').textContent = "₦--";
-        document.querySelector('.jeroid-eth-sell').textContent = "₦--";
-        document.querySelector('.jeroid-usdt-sell').textContent = "₦--";
-        document.querySelector('.jeroid-time').textContent = "Updating..";
+        document.querySelector('.jeroid-btc-sell').textContent = `${btcValue || '₦--'}`;
+        document.querySelector('.jeroid-eth-sell').textContent = `${ethValue || '₦--'}`;
+        document.querySelector('.jeroid-usdt-sell').textContent = `${usdtValue || '₦--'}`;
+        document.querySelector('.jeroid-time').textContent = `Updated - ${time_updated || 'Updating..'}`;
     } catch (error) {
         document.querySelector('.jeroid-btc-sell').textContent = "₦--";
         document.querySelector('.jeroid-eth-sell').textContent = "₦--";
