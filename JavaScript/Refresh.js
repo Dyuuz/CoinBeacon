@@ -41,7 +41,7 @@ async function updatePandarRate() {
 
 async function updatePrestmitRate() {
     try {
-        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/rates/snappy-exchange');
+        const response = await axios.get('https://fantastic-rejoicing-prod.up.railway.app/sell-rates/prestmit');
         const btcValue = response.data[0].btc;
         const ethValue = response.data[0].eth;
         const usdtValue = response.data[0].usdt;
