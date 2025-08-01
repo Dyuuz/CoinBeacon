@@ -9,7 +9,7 @@ async function updateRate(platform) {
     try {
         const response = await axios.get(`https://fantastic-rejoicing-prod.up.railway.app/sell-rates/${platform}`);
         const { btc, eth, usdt, updated_time } = response.data[0];
-        alert(JSON.stringify(response.data, null, 2));
+        // alert(JSON.stringify(response.data, null, 2));
 
         document.querySelector(selectors.btc).textContent = btc || '₦--';
         document.querySelector(selectors.eth).textContent = eth || '₦--';
