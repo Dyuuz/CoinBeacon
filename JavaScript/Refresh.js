@@ -25,7 +25,7 @@ async function updateRate(platform) {
 }
 
 async function updateAllRates() {
-    const sources = ['astro-africa', 'breet', 'jeroid', 'pandar', 'prestmit', 'snappy-exchange'];
+    const sources = ['astro-africa', 'breet', 'busha', 'jeroid', 'luno', 'pandar', 'paxful', 'prestmit', 'snappy-exchange'];
     await Promise.all(sources.map(updateRate));
 }
 
