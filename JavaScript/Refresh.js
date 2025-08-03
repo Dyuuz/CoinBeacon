@@ -7,7 +7,7 @@ async function updateRate(platform) {
     };
 
     try {
-        const response = await axios.get(`https://fantastic-rejoicing-prod.up.railway.app/api/rates/${platform}`);
+        const response = await axios.get(`https://fastapi-service-production-4c3d.up.railway.app/api/rates/${platform}`);
         const { btc, eth, usdt, updated_time } = response.data[0];
         // alert(JSON.stringify(response.data, null, 2));
 
